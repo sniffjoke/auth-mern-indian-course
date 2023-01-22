@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 require('dotenv').config()
 const MONGODB_PASSWORD=process.env.MONGODB_PASSWORD
+const MONGODB_USER=process.env.MONGODB_USER
 
 const app = express()
 
@@ -20,8 +21,10 @@ const mongoose = require('mongoose')
 
 app.use('/api', router)
 
+mongoose.set("strictQuery", true)
+
 mongoose
-    .connect(`mongodb+srv://nalcapital:${MONGODB_PASSWORD}@cluster0.ixzh7.mongodb.net/nalcapitalBase?retryWrites=true&w=majority`)
+    .connect(`mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.ixzh7.mongodb.net/nalcapitalBase?retryWrites=true&w=majority`)
     .then(() => {
         app.listen(5000)
         console.log('Database is connected! Listening to Localhost 5000')
